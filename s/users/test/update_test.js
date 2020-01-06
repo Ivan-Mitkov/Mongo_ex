@@ -4,7 +4,7 @@ const User = require("../src/user");
 describe("Updating methods", () => {
   let joe;
   beforeEach(async () => {
-    joe = await new User({ name: "Joe" });
+    joe = await new User({ name: "Joe",postCount:0 });
     await joe.save();
   });
 
@@ -54,4 +54,12 @@ describe("Updating methods", () => {
     );
     await assertName(user);
   });
+//update operators Mongo modifies the data , 
+//we are NOT retrieving information and modifing on the server 
+//https://docs.mongodb.com/manual/reference/operator/
+  it("User can have their postCount incremented by 1", async()=>{
+      await User.update({name:'Joe'},{$inc:{postCount:10}})
+      const mongoUser=await User.findOne({name:'Joe'})
+      assert(mongoUser.postCount===10)
+  })
 });
