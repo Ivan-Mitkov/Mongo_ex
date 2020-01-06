@@ -43,7 +43,7 @@ describe("Deleting a user", () => {
   //   findOneAndRemove() becomes a MongoDB findAndModify() command,
   //as opposed to a findOneAndDelete() command
   it("class method findOneAndDelete", done => {
-    User.findOneAndDelete({ name: "Joe" })
+    User.findOneAndDelete({ name: "Joe" },{useFindAndModify:false})
       .then(() => {
         return User.findOne({ name: "Joe" });
       })
