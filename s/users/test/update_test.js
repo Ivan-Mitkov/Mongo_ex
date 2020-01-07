@@ -57,9 +57,9 @@ describe("Updating methods", () => {
 //update operators Mongo modifies the data , 
 //we are NOT retrieving information and modifing on the server 
 //https://docs.mongodb.com/manual/reference/operator/
-  it("User can have their postCount incremented by 1", async()=>{
-      await User.update({name:'Joe'},{$inc:{postCount:10}})
+  it("User can have their likes incremented by 1", async()=>{
+      await User.update({name:'Joe'},{$inc:{likes:10}})
       const mongoUser=await User.findOne({name:'Joe'})
-      assert(mongoUser.postCount===10)
+      assert(mongoUser.likes===10)
   })
 });
