@@ -4,7 +4,7 @@ const User = require("../src/user");
 describe("Updating methods", () => {
   let joe;
   beforeEach(async () => {
-    joe = await new User({ name: "Joe",postCount:0 });
+    joe = await new User({ name: "Joe",likes:0 });
     await joe.save();
   });
 

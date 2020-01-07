@@ -14,7 +14,9 @@ const UserSchema = new Schema({
   //postCount will be Virtual type so it's not in the schema
   // postCount: Number,
   posts: [PostSchema],
-  likes:Number
+  likes: Number,
+  //add ref to blog post
+  blogPosts: [{ type: Schema.Types.ObjectId, ref: "blogpost" }]
 });
 //add virtual property to the schema
 //need to use function keyword not =>

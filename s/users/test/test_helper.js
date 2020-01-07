@@ -17,9 +17,16 @@ before(done => {
 });
 
 //done - when function is completed execute done
+//can't make it run with async await
 beforeEach(done => {
-  mongoose.connection.collections.users.drop(() => {
+  const { users, comments, blogposts } = mongoose.connection.collections;
+
+  users.drop(() => {
     //ready to run next test
-    done();
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
   });
 });
