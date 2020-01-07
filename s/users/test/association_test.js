@@ -33,7 +33,7 @@ describe("Associations", () => {
     // console.log(newUser);
     assert(newUser.blogPosts[0].title === "JS is Great");
   });
-  it.only("saves a full relations graph", async () => {
+  it("saves a full relations graph", async () => {
     const newUser = await User.findOne({ name: "Joe" }).populate({
       path: "blogPosts",
       //this time populate is inside of the path

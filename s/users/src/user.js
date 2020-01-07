@@ -25,6 +25,24 @@ UserSchema.virtual("postCount").get(function() {
   return this.posts.length;
 });
 
+//Mongoose middleware mongoose events and callback
+UserSchema.pre("remove", function(next) {
+  //this===joe
+  //avoiding cycles in loading by using mongoose models in the function
+  console.log("this blog posts 1: ", this.blogPosts);
+
+  const BlogPost = mongoose.model("blogpost");
+  //in pre I think it's not possible to use deleteOne or deleteMany
+  //NOT ITERATING using mongo query operator $in
+  // console.log('this joe',this)
+  BlogPost.remove({ _id: { $in: this.blogPost } }).then(() => {
+    console.log("this blog posts 2: ", this.blogPosts);
+
+    return next();
+  });
+  //dealing with async behaviour by using next
+});
+
 //create collection 'user' and use UserSchema, User represents entire collection of Users
 const User = mongoose.model("user", UserSchema);
 
