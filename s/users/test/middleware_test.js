@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const assert = require("assert");
 const User = require("../src/user");
 const BlogPost = require("../src/blogPost");
@@ -16,15 +15,17 @@ describe("Middleware", () => {
     //associate by pushing entire model
     //Mongoose will recognize that this is assciation and will use id
     joe.blogPosts.push(blogPost);
-
+   
     //in DB
     Promise.all([joe.save(), blogPost.save()]).then(() => done());
   });
 
-  it("user remove blogposts associated with him", async () => {
-    await joe.remove();
-    const count = await BlogPost.countDocuments();
-    console.log(count)
-    assert(count === 0);
-  });
+  it.only("user remove blogposts associated with him", done => {
+    joe.remove()
+    .then(() => BlogPost.countDocuments())
+    .then((count) => {
+      assert(count === 0);
+      done();
+    });
+});
 });
