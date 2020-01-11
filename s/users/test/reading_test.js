@@ -2,12 +2,17 @@ const assert = require("assert");
 const User = require("../src/user");
 
 describe("Reading users out of the DB", () => {
-  let joe;
+  let joe, maria, alex, zax;
   //first insert record after it's done do the other tests
   beforeEach(done => {
     //_id is assigned here before saving to the DB
+    alex = new User({ name: "Alex" });
     joe = new User({ name: "Joe" });
-    joe.save().then(() => done());
+    maria = new User({ name: "Maria" });
+    zax = new User({ name: "Zax" });
+    Promise.all([joe.save(), maria.save(), alex.save(), zax.save()]).then(() =>
+      done()
+    );
   });
   it("Finds all users with the name of Joe", done => {
     User.find({ name: "Joe" }).then(users => {
@@ -28,5 +33,15 @@ describe("Reading users out of the DB", () => {
       assert(user._id.toString() === joe._id.toString());
       done();
     });
+  });
+
+  it("can skip and limit the result set", async () => {
+    const users = await User.find({})
+      .sort({ name: 1 })
+      .skip(1)
+      .limit(2);
+    assert(users.length === 2);
+    assert(users[0].name === "Joe");
+    assert(users[1].name === "Maria");
   });
 });
