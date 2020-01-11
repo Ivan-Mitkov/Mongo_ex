@@ -33,7 +33,7 @@ UserSchema.pre("remove", async function() {
   //NOT ITERATING using mongo query operator $in
   // console.log('this joe',this)
   
-  await BlogPost.deleteOne({ _id: { $in: this.blogPosts } })
+  await BlogPost.deleteMany({ _id: { $in: this.blogPosts } })
   // .then(() =>{ 
   //   console.log("this blog posts 2: ", this.blogPosts||null);
 
