@@ -32,17 +32,21 @@ UserSchema.pre("remove", async function() {
   const BlogPost = mongoose.model("blogpost"); 
   //NOT ITERATING using mongo query operator $in
   // console.log('this joe',this)
+  try{
+    await BlogPost.deleteMany({ _id: { $in: this.blogPosts } })
+    // .then(() =>{ 
+    //   console.log("this blog posts 2: ", this.blogPosts||null);
   
-  await BlogPost.deleteMany({ _id: { $in: this.blogPosts } })
-  // .then(() =>{ 
-  //   console.log("this blog posts 2: ", this.blogPosts||null);
-
-  //   return next()})
-  // .catch(err=>{
-  //   console.log(err)
-  // })
-  // //dealing with async behaviour by using next
-  // return next()
+    //   return next()})
+    // .catch(err=>{
+    //   console.log(err)
+    // })
+    // //dealing with async behaviour by using next
+    // return next()
+  }catch(err){
+    throw new Error(err.message)
+  }
+  
 });
 
 //create collection 'user' and use UserSchema, User represents entire collection of Users

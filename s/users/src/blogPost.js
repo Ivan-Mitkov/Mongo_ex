@@ -15,8 +15,13 @@ BlogPostSchema.pre("remove", async function() {
   const Comment = mongoose.model("comment"); 
   //NOT ITERATING, using mongo query operator $in
   // console.log('this ',this)
-  
-  await Comment.deleteMany({ _id: { $in: this.comments } })
+  try{
+    await Comment.deleteMany({ _id: { $in: this.comments } })
+
+  }catch(err){
+    console.log(err)
+    throw new Error('Blog post deleteing comment error')
+  }
   
 });
 //'blogpost' is the name
