@@ -20,7 +20,7 @@ module.exports = () => {
 
   const range = Promise.all([minYearsActive(), maxYearsActive()]).then(res => {
     const range = { min: res[0], max: res[1] };
-    console.log(range);
+    // console.log(range);
     return range;
   });
 
