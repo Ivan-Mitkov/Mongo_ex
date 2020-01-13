@@ -47,34 +47,33 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 10) => {
     return valueFilter;
   };
 
-//   const searchQueryObject = createSearchObject();
-    const searchQueryObject=buildQuery(criteria)
+  const searchQueryObject = createSearchObject();
+  //   const searchQueryObject = buildQuery(criteria);
 
   const searched = Artist.find(searchQueryObject)
     .sort({ [sortProperty]: 1 })
     .skip(offset)
     .limit(limit);
-
+  //second query
+  const countedDocuments = Artist.find(searchQueryObject).countDocuments();
   //two queries one for searched and one for document counts so Promise.all
-  return Promise.all([searched, Artist.countDocuments()]).then(res => {
+  return Promise.all([searched, countedDocuments]).then(res => {
     // console.log("Searched: ", res[0], res[1], offset, limit);
     return { all: res[0], count: res[1], offset: offset, limit: limit };
   });
 };
 
-
 //authors solution
 
 const buildQuery = criteria => {
   const query = {};
-  if(criteria.name){
-      //in TERMINAL creat index for text field name
-      //cant use $text without create index
-      //search ONLY entire word NOT part of the word
-      //use upstar_music
-      //db.artists.createIndex({name:"text"})
-      query.$text={$search:criteria.name}
-
+  if (criteria.name) {
+    //in TERMINAL creat index for text field name
+    //cant use $text without create index
+    //search ONLY entire word NOT part of the word
+    //use upstar_music
+    //db.artists.createIndex({name:"text"})
+    query.$text = { $search: criteria.name };
   }
   if (criteria.age) {
     query.age = { $gte: criteria.age.min, $lte: criteria.age.max };

@@ -3,8 +3,8 @@ import faker from 'faker';
 import { Db, Server } from 'mongodb';
 import { GENRES } from './constants';
 
-const MINIMUM_ARTISTS = 2;
-const ARTISTS_TO_ADD = 15;
+const MINIMUM_ARTISTS = 200;
+const ARTISTS_TO_ADD = 15000;
 
 let artistsCollection;
 const db = new Db('upstar_music', new Server('localhost', 27017));
@@ -26,8 +26,8 @@ db.open()
 function createArtist() {
   return {
     name: faker.name.findName(),
-    age: randomBetween(15, 45),
-    yearsActive: randomBetween(0, 15),
+    age: randomBetween(15, 80),
+    yearsActive: randomBetween(0, 40),
     image: faker.image.avatar(),
     genre: getGenre(),
     website: faker.internet.url(),
