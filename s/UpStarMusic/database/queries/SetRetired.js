@@ -1,9 +1,15 @@
-const Artist = require('../models/artist');
+const Artist = require("../models/artist");
 
 /**
  * Sets a group of Artists as retired
  * @param {array} _ids - An array of the _id's of of artists to update
  * @return {promise} A promise that resolves after the update
  */
-module.exports = (_ids) => {
+module.exports = _ids => {
+  return Artist.updateMany(
+    { _id: { $in: _ids } },
+    { $set: { retired: true } }
+    //multi is needed if we are using update()
+    // {multi: true}
+  );
 };
