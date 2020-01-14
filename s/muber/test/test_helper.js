@@ -21,6 +21,6 @@ beforeEach(async () => {
     await drivers.drop();
   } catch (error) {
       //catch the first time
-    console.log(error);
+    // console.log(error);
   }
 });

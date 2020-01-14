@@ -8,7 +8,7 @@ describe('The express app',()=>{
             const response = await request(app).get('/api').expect(200);;
             assert(response.body.hi==='there')
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             throw new Error(error)
         }
        
