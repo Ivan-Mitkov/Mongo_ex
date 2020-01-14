@@ -3,8 +3,10 @@ const mongoose=require('mongoose');
 const routes=require('./routes/routes');
 const app=express();
 
+if(process.env.NODE_ENV!=='test'){
+    mongoose.connect('mongodb://localhost/muber', {useNewUrlParser: true,useUnifiedTopology: true})
 
-mongoose.connect('mongodb://localhost/muber')
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
