@@ -50,4 +50,16 @@ describe("Drivers controller", () => {
     assert(foundDriver[0].driving === true);
     assert(foundDriver[0].email === "drivr@test.com");
   });
+  it("delete driver", async () => {
+    const driver = await new Driver({ email: "delete@test.com" });
+    await driver.save();
+    await request(app)
+    //NO :!!!!
+      .delete(`/api/drivers/${driver._id}`)
+      .send()
+      .expect(204);
+
+    const foundDriver = await Driver.findOne({ email: "delete@test.com" });
+    assert(foundDriver === null);
+  });
 });

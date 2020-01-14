@@ -35,5 +35,19 @@ module.exports = {
       // call next middleware error handling middleware in app.js
       next(error);
     }
+  },
+  delete: async (req, res, next) => {
+    const id = req.params.id;
+    // console.log("edit props: ", props,id);
+    try {
+      const newDriver = await Driver.findByIdAndDelete({ _id: id });
+      // console.log('new driver',newDriver)
+      res.status(204).send(newDriver);
+    } catch (error) {
+      console.log("Catch:", error);
+      //if there is error for example missing required fields
+      // call next middleware error handling middleware in app.js
+      next(error);
+    }
   }
 };
