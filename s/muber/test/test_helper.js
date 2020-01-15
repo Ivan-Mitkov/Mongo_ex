@@ -18,9 +18,14 @@ before(async () => {
 beforeEach(async () => {
   const { drivers } = await mongoose.connection.collections;
   try {
-    await drivers.drop();
+    await drivers
+      .drop()
+      //without this the geo indexes will be deleted
+      //createIndexes NOT working
+      // .then(() => drivers.createIndexes({ 'geometry.coordinates': "2dsphere"} ));
+      .then(() => drivers.ensureIndex({ "geometry.coordinates": "2dsphere" }));
   } catch (error) {
-      //catch the first time
+    //catch the first time
     // console.log(error);
   }
 });

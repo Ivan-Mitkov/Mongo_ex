@@ -49,5 +49,34 @@ module.exports = {
       // call next middleware error handling middleware in app.js
       next(error);
     }
+  },
+  index: async (req, res, next) => {
+    const { lng, lat } = req.query;
+    const point = {
+      type: "Point",
+      coordinates: [parseFloat(lng), parseFloat(lat)]
+    };
+    try {
+      const geoDriver = await Driver.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: "Point",
+              //query strings a strings not numbers so this is not working
+              // coordinates: [lng, lat]
+
+              coordinates: [parseFloat(lng), parseFloat(lat)]
+            },
+            spherical: true,
+            distanceField: "dist",
+            maxDistance: 200000
+          }
+        }
+      ]);
+
+      res.send(geoDriver);
+    } catch (error) {
+      next();
+    }
   }
 };
